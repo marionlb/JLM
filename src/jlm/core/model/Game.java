@@ -134,6 +134,8 @@ public class Game implements IWorldView {
 	public void setCurrentLesson(Lesson lesson) {
 		this.currentLesson = lesson;
 		fireCurrentLessonChanged();
+		/* FIXME CODE ADDED */
+		MainFrame.getInstance().currentLessonHasChanged(); 
 		setCurrentExercise(this.currentLesson.getCurrentExercise());
 	}
 

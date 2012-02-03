@@ -1,8 +1,10 @@
 package jlm.core.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -51,7 +53,6 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 	private static final long serialVersionUID = -5022279647890315264L;
 
 	private static MainFrame instance = null;
-
 	private ExerciseView exerciseView;
 	private JButton startButton;
 	private JButton debugButton;
@@ -61,6 +62,8 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 	private LoggerPanel outputArea;
 	
 	private JSplitPane mainPanel;
+
+	private LessonNavigatorPane lessonNavigator;
 	
 	private MainFrame() {
 		super("Java Learning Machine");
@@ -97,13 +100,22 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 		double weight = 0.6;
 		mainPanel.setResizeWeight(weight);
 		mainPanel.setDividerLocation((int) (1024 * weight));
-
-		mainPanel.setLeftComponent(new MissionEditorTabs());
-
+		
+	    mainPanel.setLeftComponent(new MissionEditorTabs());
 		exerciseView = new ExerciseView(g);
 		mainPanel.setRightComponent(exerciseView);
-
-		logPane.setTopComponent(mainPanel);
+		
+		/* FIXME CODE ADDED */
+		JSplitPane leftSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true); 
+		leftSplitPane.setOneTouchExpandable(true);
+		double leftWeight = 0.2;
+		leftSplitPane.setResizeWeight(leftWeight);
+		leftSplitPane.setRightComponent(mainPanel);
+		lessonNavigator = new LessonNavigatorPane();
+		leftSplitPane.setLeftComponent(lessonNavigator);
+		leftSplitPane.setDividerLocation((int) (1024 * leftWeight)); 
+		logPane.setTopComponent(leftSplitPane);
+		/* END */
 		outputArea = new LoggerPanel(g);
 		JScrollPane outputScrollPane = new JScrollPane(outputArea);
 		logPane.setBottomComponent(outputScrollPane);
@@ -305,14 +317,11 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 		demoButton = new PropagatingButton(new PlayDemo(g, "Demo", 
 				ResourcesCache.getIcon("resources/demo.png")));
 		demoButton.setEnabled(true);
-		
-
 		toolBar.add(startButton);
 		toolBar.add(debugButton);
 		toolBar.add(stopButton);
 		toolBar.add(resetButton);
 		toolBar.add(demoButton);
-
 		getContentPane().add(toolBar, BorderLayout.NORTH);
 	}
 
@@ -407,6 +416,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 	public void showWorldView() {
 		mainPanel.getBottomComponent().setVisible(true);
 		mainPanel.setDividerSize(10);
+		
 		validate();
 	}
 	public void lessonChooser() {
@@ -437,6 +447,8 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 	public void currentExerciseHasChanged(Lecture lecture) {
 		Game g = Game.getInstance();
 		if (lecture instanceof Exercise) {
+			/* FIXME CODE ADDED */
+			lessonNavigator.currentExerciseHasChanged(lecture);
 			showWorldView();
 			Exercise exo = (Exercise) lecture;
 			for (ProgrammingLanguage l:exo.getProgLanguages()) {
@@ -449,7 +461,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 	}
 
 	@Override
-	public void currentLessonHasChanged() { /* don't care */ }
+	public void currentLessonHasChanged() { /* don't care */	}
 
 	@Override
 	public void selectedEntityHasChanged() { /* don't care */ }
@@ -502,7 +514,7 @@ class ProgLangSubMenu extends JMenu implements ProgLangChangesListener, GameList
 				if (pl.equals(Game.getProgrammingLanguage()))
 					item.setSelected(true);
 				group.add(item);
-				add(item);
+				add(item);		
 			}
 		} else {
 			setEnabled(false);

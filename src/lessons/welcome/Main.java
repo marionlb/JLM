@@ -47,6 +47,7 @@ import lessons.welcome.bool2.TeenSum;
 import lessons.welcome.bool2.TwoAsOne;
 import lessons.welcome.bool2.WithoutDoubles;
 
+
 public class Main extends Lesson {
 
 	@Override
@@ -98,6 +99,7 @@ public class Main extends Lesson {
 		addExercise(new AverageValue(this));
 		addExercise(new MaxValue(this));
 		addExercise(new IndexOfMaxValue(this));
+
 
 		/* Traversal exercises */
 		addExercise(new TraversalByColumn(this),arrays);
