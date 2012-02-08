@@ -2,9 +2,6 @@ package jlm.universe;
 
 
 
-
-
-
 public abstract class GridWorld extends World {
 
 	protected GridWorldCell[][] cells;
