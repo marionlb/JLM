@@ -60,11 +60,11 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 	private JButton resetButton;
 	private JButton demoButton;
 	private LoggerPanel outputArea;
-	
+
 	private JSplitPane mainPanel;
 
 	private LessonNavigatorPane lessonNavigator;
-	
+
 	private MainFrame() {
 		super("Java Learning Machine");
 		Reader.setLocale(this.getLocale().getLanguage());
@@ -100,11 +100,11 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 		double weight = 0.6;
 		mainPanel.setResizeWeight(weight);
 		mainPanel.setDividerLocation((int) (1024 * weight));
-		
-	    mainPanel.setLeftComponent(new MissionEditorTabs());
+
+		mainPanel.setLeftComponent(new MissionEditorTabs());
 		exerciseView = new ExerciseView(g);
 		mainPanel.setRightComponent(exerciseView);
-		
+
 		/* FIXME CODE ADDED */
 		JSplitPane leftSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true); 
 		leftSplitPane.setOneTouchExpandable(true);
@@ -155,7 +155,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 		});
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
 		menu.add(menuItem);
-		
+
 		menuItem = new JMenuItem(new AbstractGameAction(g, "Switch lesson", null, "Go to another lesson",  "Cannot switch lesson now", KeyEvent.VK_L) {
 			private static final long serialVersionUID = 1L;
 
@@ -166,7 +166,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 		});
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
 		menu.add(menuItem);
-		
+
 		menuItem = new JMenuItem(new QuitGame(g, "Quit", null,  KeyEvent.VK_Q));
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
 
@@ -192,14 +192,14 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 		JMenuItem importSessionMenuItem = new JMenuItem(new ImportSession(g, "Import Session Cache",
 				null, this));
 		menu.add(importSessionMenuItem);
-		
+
 		JMenuItem switchDebug = new JCheckBoxMenuItem(new AbstractGameAction(g, "Debug mode", null, "Display more debug message in logs", "Cannot switch debug mode now", KeyEvent.VK_D) {
 			private static final long serialVersionUID = 1L;
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.switchDebug();
-				
+
 			}
 		});
 		menu.add(switchDebug);
@@ -209,12 +209,12 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 		menu = new JMenu("Language");
 		menu.setMnemonic(KeyEvent.VK_L);
 		menuBar.add(menu);
-		
+
 		/* === Programming language changing === */
 		JMenu textLangSubMenu = new JMenu("Human");
 		menu.add(textLangSubMenu);
 		ButtonGroup group = new ButtonGroup();
-		
+
 		for (String[] lang : new String[][] { {"Francais","fr"}, {"English","en"}}) {
 			JMenuItem item = new JRadioButtonMenuItem(new SetLanguage(g, lang[0], lang[1]));
 			if (lang[1].equals(Reader.getLocale())) 
@@ -222,7 +222,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 			group.add(item);
 			textLangSubMenu.add(item);		
 		}
-		
+
 		menu.add(new ProgLangSubMenu());
 
 		/* === Help menu === */
@@ -250,12 +250,12 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 			public void actionPerformed(ActionEvent arg0) {
 				if (this.dialog == null) 
 					this.dialog = new AboutLessonDialog(MainFrame.getInstance());
-				
+
 				this.dialog.setVisible(true);
 			}			
 		});
 		menu.add(menuItem);
-		
+
 		menuItem = new JMenuItem(new AbstractGameAction(g, "About this world", null) {
 			private static final long serialVersionUID = 1L;
 
@@ -270,7 +270,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 		});
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));
 		menu.add(menuItem);
-		
+
 		if (!System.getProperty("os.name").startsWith("Mac")) {
 			menu.add(new JMenuItem(new AbstractGameAction(g, "About JLM", null) {
 				private static final long serialVersionUID = 1L;
@@ -302,20 +302,30 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 
 		ImageIcon ii = ResourcesCache.getIcon("resources/start.png");
 		startButton = new PropagatingButton(new StartExecution(g, "Run", ii));
+		//shortcut ctrl-r
+		startButton.setMnemonic(KeyEvent.VK_R);
 
 		debugButton = new PropagatingButton(new StepExecution(g, "Step", 
 				ResourcesCache.getIcon("resources/debug.png")));
-		
+		//shortcut ctrl-b
+		debugButton.setMnemonic(KeyEvent.VK_B);
+
 		stopButton = new PropagatingButton(new StopExecution(g, "Stop", 
 				ResourcesCache.getIcon("resources/stop.png")));
+		//shortcut ctrl-s
+		stopButton.setMnemonic(KeyEvent.VK_S);
 		stopButton.setEnabled(false);
 
 		resetButton = new PropagatingButton(new Reset(g, "Reset", 
 				ResourcesCache.getIcon("resources/reset.png")));
+		//shortcut ctrl-z
+		resetButton.setMnemonic(KeyEvent.VK_Z);
 		resetButton.setEnabled(true);
 
 		demoButton = new PropagatingButton(new PlayDemo(g, "Demo", 
 				ResourcesCache.getIcon("resources/demo.png")));
+		//shortcut ctrl-d
+		demoButton.setMnemonic(KeyEvent.VK_D);
 		demoButton.setEnabled(true);
 		toolBar.add(startButton);
 		toolBar.add(debugButton);
@@ -416,14 +426,14 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 	public void showWorldView() {
 		mainPanel.getBottomComponent().setVisible(true);
 		mainPanel.setDividerSize(10);
-		
+
 		validate();
 	}
 	public void lessonChooser() {
-		
+
 	}
 
-	
+
 	public void quit() {
 		MainFrame.getInstance().dispose();
 		Game.getInstance().quit();
@@ -471,7 +481,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 
 	@Override
 	public void selectedWorldWasUpdated() { /* don't care */ }
-	
+
 	/** Simple JButton which pass the enabled signals to their action */
 	class PropagatingButton extends JButton {
 		private static final long serialVersionUID = 1L;
@@ -489,7 +499,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 
 class ProgLangSubMenu extends JMenu implements ProgLangChangesListener, GameListener {
 	private static final long serialVersionUID = 1L;
-	
+
 	public ProgLangSubMenu() {
 		super("Computer");
 		Game.getInstance().addGameListener(this);
