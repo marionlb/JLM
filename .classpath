@@ -33,6 +33,5 @@
 	<classpathentry exported="true" kind="lib" path="lib/jython/jython-2.5.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jython/asm3-3.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jython/js-1.7R3.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Program Files (x86)/Java/jdk1.6.0_21/lib/tools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
