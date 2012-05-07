@@ -2,10 +2,17 @@ package jlm.core.ui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
+import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
@@ -99,8 +106,33 @@ public class MissionEditorTabs extends JTabbedPane implements GameListener, Prog
 		
 		/* add code tabs */
 		currentExerciseHasChanged(game.getCurrentLesson().getCurrentExercise());
+		
+		/* removes keybindings from the JTextField
+		 * Used to permit CTRL-PageUp and CTR-PageDown to change tabs */
+		
+//		this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke("ctrl pressed PAGE_DOWN"), null );
+//		this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke("ctrl pressed PAGE_UP" ), null );
+//		this.missionTab.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN,InputEvent.CTRL_DOWN_MASK ), null );
+//		this.missionTab.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP,InputEvent.CTRL_DOWN_MASK ), null );
+		System.out.println(showKeys(this, "MissionEditorTabs"));
+		System.out.println(showKeys(missionTab, "JEditorPane"));
 	}
 	
+	public static String showKeys(JComponent jc, String nom) {
+		ActionMap a = jc.getActionMap();
+		InputMap im = jc.getInputMap();
+		String res="";
+		res+=nom+" : "; 
+		
+		KeyStroke[] tab = jc.getInputMap().allKeys();
+		for (int i = 0; i < tab.length-1; i++) {
+			res+=tab[i].toString()+" , ";
+			if(tab[i].toString().contains("PAGE_UP")||tab[i].toString().contains("PAGE_DOWN"))
+				System.err.println(tab[i].toString());
+		}
+		res+=tab[tab.length-1].toString()+"";
+		return res;
+	}
 	@Override
 	public void currentExerciseHasChanged(Lecture lecture) {
 		currentExercise = lecture;		

@@ -5,15 +5,18 @@ import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -22,6 +25,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 
@@ -60,6 +64,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 	private JButton resetButton;
 	private JButton demoButton;
 	private LoggerPanel outputArea;
+	private MissionEditorTabs met;
 
 	private JSplitPane mainPanel;
 
@@ -69,6 +74,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 		super("Java Learning Machine");
 		Reader.setLocale(this.getLocale().getLanguage());
 		initComponents(Game.getInstance());
+		this.keyListeners(exerciseView);
 	}
 
 	public static MainFrame getInstance() {
@@ -101,7 +107,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 		mainPanel.setResizeWeight(weight);
 		mainPanel.setDividerLocation((int) (1024 * weight));
 
-		mainPanel.setLeftComponent(new MissionEditorTabs());
+		mainPanel.setLeftComponent(met=new MissionEditorTabs());
 		exerciseView = new ExerciseView(g);
 		mainPanel.setRightComponent(exerciseView);
 
@@ -495,6 +501,46 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 			super.setEnabled(enabled);
 		}
 	}
+	public void keyListeners(ExerciseView e){
+		final JTabbedPane tabp = e.getTabPane();
+		//CTLR PAGEUP
+		this.getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP,0 ), null );
+		this.getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN,0), null );
+		this.getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP,0), "action pageup" );
+		this.getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN,0 ), "action pagedown" );
+		this.getRootPane().getActionMap().put("action pageup", new AbstractAction() {
+			public void actionPerformed(ActionEvent ae) {
+				System.out.println("touche pageup pressée" );
+				System.out.println(met.getTabCount());
+				int index=(met.getSelectedIndex()==0?met.getTabCount()-1:met.getSelectedIndex()-1);
+				met.setSelectedIndex(index);
+			}
+		});
+		this.getRootPane().getActionMap().put("action pagedown", new AbstractAction() {
+			public void actionPerformed(ActionEvent ae) {
+				System.out.println("touche pagedown pressée" );
+				System.out.println(met.getTabCount());
+				int index=(met.getSelectedIndex()==met.getTabCount()-1?0:met.getSelectedIndex()+1);
+				met.setSelectedIndex(index);
+			}
+		});
+		this.getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke("left"), "action left" );
+		this.getRootPane().getActionMap().put("action left", new AbstractAction() {
+			public void actionPerformed(ActionEvent ae) {
+				System.out.println("touche left pressée" );
+			}
+		}
+				);
+		
+		//F1
+		this.getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke("F1" ), "action F1" );
+		this.getRootPane().getActionMap().put("action F1", new AbstractAction() {
+			public void actionPerformed(ActionEvent ae) {
+				System.out.println("touche F1 pressée" );
+			}
+		}
+				);
+	}
 }
 
 class ProgLangSubMenu extends JMenu implements ProgLangChangesListener, GameListener {
@@ -539,4 +585,6 @@ class ProgLangSubMenu extends JMenu implements ProgLangChangesListener, GameList
 	public void selectedEntityHasChanged() {  /* don't care */ }
 	@Override
 	public void selectedWorldWasUpdated() {   /* don't care */ }
+
+	
 }
