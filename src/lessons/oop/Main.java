@@ -7,7 +7,9 @@ public class Main extends Lesson {
 
 	@Override
 	protected void loadExercises() {
-		addExercise(new MiniBuggle(this));
+		addExercise(new CreateBuggle(this));
+		addExercise(new AddDirection(this));
+		addExercise(new Move(this));
 	}
 
 }
