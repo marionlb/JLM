@@ -114,8 +114,8 @@ public class MissionEditorTabs extends JTabbedPane implements GameListener, Prog
 //		this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke("ctrl pressed PAGE_UP" ), null );
 //		this.missionTab.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN,InputEvent.CTRL_DOWN_MASK ), null );
 //		this.missionTab.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP,InputEvent.CTRL_DOWN_MASK ), null );
-		System.out.println(showKeys(this, "MissionEditorTabs"));
-		System.out.println(showKeys(missionTab, "JEditorPane"));
+//		System.out.println(showKeys(this, "MissionEditorTabs"));
+//		System.out.println(showKeys(missionTab, "JEditorPane"));
 	}
 	
 	public static String showKeys(JComponent jc, String nom) {

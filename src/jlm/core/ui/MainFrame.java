@@ -511,7 +511,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 		this.getRootPane().getActionMap().put("action pageup", new AbstractAction() {
 			public void actionPerformed(ActionEvent ae) {
 				System.out.println("touche pageup pressée" );
-				System.out.println(met.getTabCount());
+//				System.out.println(met.getTabCount());
 				int index=(met.getSelectedIndex()==0?met.getTabCount()-1:met.getSelectedIndex()-1);
 				met.setSelectedIndex(index);
 			}
@@ -519,7 +519,7 @@ public class MainFrame extends JFrame implements GameStateListener, GameListener
 		this.getRootPane().getActionMap().put("action pagedown", new AbstractAction() {
 			public void actionPerformed(ActionEvent ae) {
 				System.out.println("touche pagedown pressée" );
-				System.out.println(met.getTabCount());
+//				System.out.println(met.getTabCount());
 				int index=(met.getSelectedIndex()==met.getTabCount()-1?0:met.getSelectedIndex()+1);
 				met.setSelectedIndex(index);
 			}
