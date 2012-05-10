@@ -2,7 +2,6 @@ package lessons.oop;
 
 import jlm.universe.Direction;
 import jlm.universe.bugglequest.AbstractBuggle;
-import lessons.oop.CreateBuggleEntity.Buggle;
 
 public class AddDirectionEntity extends AbstractBuggle{
 	
