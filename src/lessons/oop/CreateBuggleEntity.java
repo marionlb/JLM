@@ -1,8 +1,8 @@
 package lessons.oop;
 
-import jlm.universe.bugglequest.AbstractBuggle;
+import jlm.universe.bugglequest.SimpleBuggle;
 
-public class CreateBuggleEntity extends AbstractBuggle {
+public class CreateBuggleEntity extends SimpleBuggle {
 
 	/* BEGIN TEMPLATE */ 
 	/* BEGIN SOLUTION */
