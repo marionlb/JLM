@@ -1,0 +1,91 @@
+public static boolean tests3(Class<?> c) throws JLMException{
+		boolean res = true;
+		res&=AddDirection.tests(c);
+		Tests.hasMethod(c, "forward", new Class[] {});
+		Tests.hasMethod(c, "backward", new Class[] {});
+		Tests.hasMethod(c, "turnRight", new Class[] {});
+		Tests.hasMethod(c, "turnLeft", new Class[] {});
+		return res;
+	}
+	public static boolean tests4(Class<?> c) throws JLMException{
+		boolean res = true;
+		res&=AddDirection.tests(c);
+		Tests.hasMethod(c, "isBrushDown", new Class[] {});
+		Tests.hasMethod(c, "brushUp", new Class[] {});
+		Tests.hasMethod(c, "brushDown", new Class[] {});
+		return res;
+	}
+	public void check5() throws Exception {
+		Class<?>[] tab = this.currentWorld[0].getEntity(0).getClass().getClasses();
+		Class<?> bug=null,bag = null;
+		for (int i = 0; i < tab.length; i++) {
+			if(tab[i].getSimpleName().toLowerCase().contains("buggle"))
+				bug=tab[i];
+			else if(tab[i].getSimpleName().toLowerCase().contains("baggle"))
+				bag=tab[i];
+		}
+		Class<?> c = this.currentWorld[0].getEntity(0).getClass().getClasses()[0];
+
+		try {
+			lastResult.totalTests++;
+			if (tests5(bag,bug)) {
+				lastResult.passedTests++;
+			} else
+				throw new JLMException("");
+		} catch(JLMException e) {
+			lastResult.details += "The unit testing fails.";
+			lastResult.details += "\n"+e.getMessage();
+			lastResult.details += "\n";
+		}
+
+		super.check();
+	}
+
+	public static boolean tests5(Class<?> bag, Class<?> bug) throws JLMException{
+		boolean res=true;
+
+		Tests.classExists(bag, "Baggle");
+		Field[] fields = Tests.testFields(bag, 2);
+		
+		Field fx=null,fy=null;
+		fx=Tests.getField(bag, "x");
+		fy=Tests.getField(bag, "y");
+		
+		Tests.testField(fx,int.class);
+		Tests.testField(fy,int.class);
+		Tests.hasConstructor(bag,new Class[] {int.class,int.class});
+		Tests.hasMethod(bag, "getX", new Class[] {});
+		Tests.hasMethod(bag, "getY", new Class[] {});
+		Tests.hasMethod(bag, "setX", new Class[] {int.class});
+		Tests.hasMethod(bag, "setY", new Class[] {int.class});
+
+		return true;
+	}
+
+	public static boolean tests6(Class<?> world, Class<?> cell) throws JLMException{
+		boolean res=true;
+
+		Tests.classExists(cell, "Cell");
+		Tests.classExists(world, "World");
+		
+		Field[] wfields = Tests.testFields(world, 1);
+		Field fx=null,fy=null,ftab;
+		
+		fx=Tests.getField(world, "x");
+		fy=Tests.getField(world, "y");
+		//ceci va-t-il marcher ? A voir
+		ftab=Tests.getField(world, "tab");
+		
+		if(fx!=null)
+			Tests.testField(fx,int.class);
+		if(fy!=null)
+			Tests.testField(fy,int.class);
+		Tests.testField(fy,(new int[0][0]).getClass());
+//		Tests.hasConstructor(world,new Class[] {int.class,int.class});
+//		Tests.hasMethod(world, "getX", new Class[] {});
+//		Tests.hasMethod(world, "getY", new Class[] {});
+//		Tests.hasMethod(world, "setX", new Class[] {int.class});
+//		Tests.hasMethod(world, "setY", new Class[] {int.class});
+
+		return true;
+	}
