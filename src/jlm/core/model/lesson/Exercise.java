@@ -74,6 +74,7 @@ public abstract class Exercise  extends Lecture {
 	
 	public void check() throws Exception {
 		lastResult = new ExecutionProgress();
+		firstCheck();
 		for (int i=0; i<currentWorld.length; i++) {
 			currentWorld[i].notifyWorldUpdatesListeners();
 			
@@ -90,6 +91,14 @@ public abstract class Exercise  extends Lecture {
 			}
 		}
 	}
+	/**
+	 * Useless method, except in the OOP lesson where it is used to do specific tests 
+	 * before the tests comparing the actual and answer worlds
+	 * @throws Exception
+	 * @see {@link Exercise#check()}
+	 */
+	public void firstCheck() throws Exception {	}
+
 	public void reset() {
 		for (int i=0; i<initialWorld.length; i++) 
 			currentWorld[i].reset(initialWorld[i]);

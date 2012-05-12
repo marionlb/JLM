@@ -1,24 +1,15 @@
 package lessons.oop;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.awt.Color;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 import jlm.core.JLMException;
 import jlm.core.model.lesson.ExerciseTemplated;
 import jlm.core.model.lesson.Lesson;
 import jlm.universe.Direction;
-import jlm.universe.Entity;
 import jlm.universe.bugglequest.Buggle;
 import jlm.universe.bugglequest.BuggleWorld;
 import jlm.universe.bugglequest.SimpleBuggle;
 
-@SuppressWarnings("unused")
 public class CreateBuggle extends ExerciseTemplated /*implements Tests*/ {
 
 	public CreateBuggle(Lesson lesson) {
@@ -31,9 +22,8 @@ public class CreateBuggle extends ExerciseTemplated /*implements Tests*/ {
  
 	//À remonter dans exerciseTemplated (avec tests une méthode vide à surcharger)
 	@Override
-	public void check() throws Exception {
-
-		super.check();
+	public void firstCheck() throws Exception {
+		
 		//To access the student-written Buggle class
 		Class<?> c = this.currentWorld[0].getEntity(0).getClass().getClasses()[0];
 		//To access the Buggle object created from the student's code.
@@ -56,10 +46,9 @@ public class CreateBuggle extends ExerciseTemplated /*implements Tests*/ {
 			//-> soit créér une classe d'Exception, soit voir ce qui est dispo
 			lastResult.details += "\n";
 		}
-		
 	}
 	private boolean testsDyn(SimpleBuggle e) {
-		//tester les 
+		//tester les retours de méthodes dans les cas limites
 		return true;
 	}
 
@@ -77,14 +66,16 @@ public class CreateBuggle extends ExerciseTemplated /*implements Tests*/ {
 	 */
 	public static boolean testsStat(Class<?> c) throws JLMException {
 		boolean res = true;
-
+		
+		Tests.classExists(c, "Buggle");
+		
 		Field[] fields = Tests.testFields(c, 2);
 		Field fx=null,fy=null;
 
 		fx=Tests.getField(c, "x");
 		fy=Tests.getField(c, "y");
 
-		Tests.classExists(c, "Buggle");
+		
 		
 		Tests.testField(fx,int.class);
 		Tests.testField(fy,int.class);
