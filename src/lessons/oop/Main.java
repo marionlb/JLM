@@ -10,6 +10,7 @@ public class Main extends Lesson {
 		addExercise(new CreateBuggle(this));
 		addExercise(new AddDirection(this));
 		addExercise(new Move(this));
+		addExercise(new Brush(this));
 	}
 
 }

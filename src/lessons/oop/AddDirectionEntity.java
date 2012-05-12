@@ -1,9 +1,9 @@
 package lessons.oop;
 
 import jlm.universe.Direction;
-import jlm.universe.bugglequest.AbstractBuggle;
+import jlm.universe.bugglequest.SimpleBuggle;
 
-public class AddDirectionEntity extends AbstractBuggle{
+public class AddDirectionEntity extends SimpleBuggle{
 	
 	/* BEGIN TEMPLATE */ 
 	/* BEGIN SOLUTION */
