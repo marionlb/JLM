@@ -48,18 +48,49 @@ public class MoveEntity extends AbstractBuggle{
 		}
 		
 		public void forward() {
-			
+			switch (direction) {
+			case 0:
+				y++;
+				break;
+			case 3:
+				x--;
+				break;
+			case 2:
+				y--;
+				break;
+			case 1:
+				x++;
+				break;
+			default:
+				break;
+			}
 		}
 		
 		public void backward() {
+			switch (direction) {
+			case 0:
+				y--;
+				break;
+			case 3:
+				x++;
+				break;
+			case 2:
+				y++;
+				break;
+			case 1:
+				x--;
+				break;
+			default:
+				break;
+			}
 		}
 		
 		public void turnLeft() {
-			
+			direction = (direction-- + 4) % 4;
 		}
 		
 		public void turnRight() {
-			
+			direction = (direction++) % 4;
 		}
 
 	}
