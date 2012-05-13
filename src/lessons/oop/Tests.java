@@ -4,6 +4,8 @@ lessons.oop;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Random;
 
 import jlm.core.JLMException;
 import jlm.core.model.lesson.ExerciseTemplated;
@@ -94,7 +96,7 @@ public class Tests {
 			paramS += param[param.length - 1].getSimpleName() ;
 		}
 		paramS+="}";
-		
+
 		JLMException e = new JLMException
 				("The method \"" +name+"\" with the parameters "+paramS+" doesn't seem to exist in the class \"" +src.getSimpleName()+"\"");
 
@@ -189,4 +191,144 @@ public class Tests {
 		}
 		return tab2;
 	}
+	/**
+	 * Test a set Method from another class
+	 * @param m The set Method to test
+	 * @param f The field it is supposed to modify
+	 * @param src The tested class
+	 * @param modulo Accepted modulo count if f is an int, 0/1 to discard case if f is a string
+	 * @throws JLMException If an error is detected in the results
+	 * @see {@link Tests#testGet(Method, Field, Class)}
+	 */
+	public static final void testSet(Method m, Field f, Class<?> src,int modulo) throws JLMException {
+		if(m.getParameterTypes().length>1)
+			System.out.println("Erreur dans l'utilisation du testSet");
+		Class<?> type = m.getParameterTypes()[0];
+		Object obj,valInit,valDem,valFin;
+		f.setAccessible(true);
+		try {
+			//Objet à tester
+			obj = src.newInstance();
+
+			//attribut initial
+			valInit = f.get(obj);
+			//Det de val demandée
+			valDem=newInstance(type);
+			//Invoquer la methode set
+			m.invoke(obj, valDem);
+			//attribut à priori modifié
+			valFin = f.get(obj);
+
+			if(modulo!=0){
+				if(type.equals(int.class)){
+					valDem = ((Integer)valDem)%modulo; 
+				}else if(type.equals(String.class)) {
+					valDem = ((String)valDem).toLowerCase();
+					valFin = ((String)valFin).toLowerCase();
+				}
+			}
+			//			System.out.println(("Method "+src.getSimpleName()+"."+m.getName()+" (Got : "+valFin+" | Expected : "+valDem+")"));
+
+			//vérification
+			if(!valFin.equals(valDem))
+				throw new JLMException("Method "+src.getSimpleName()+"."+m.getName()+" (Got : "+valFin+" | Expected : "+valDem+")");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Generates a random new instance of the desired type. 
+	 * If the type you asked for is Primitive, it'll return a random instance of the appropriate Wrapper class. 
+	 * @param type The desired type
+	 * @return random instance of type
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 */
+	private static Object newInstance(Class<?> type) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
+		Random r = new Random();
+		Object res=null;
+		type.cast(res);
+		//Dans les cas simples, la classe random permet de générer facilement une valeur
+		if(type.isPrimitive() || type.equals(String.class)) {
+			if(type.equals(boolean.class))
+				res=r.nextBoolean();
+			else if(type.equals(int.class))
+				//forcé à 7 exprès pour faciliter les tests des setX de Buggles qui sont % de la taille du monde
+				res=r.nextInt(100);
+			else if(type.equals(char.class))
+				//adapté à l'UTF8 pour avoir des caractères potables
+				res=(char)(r.nextInt(64)+48);
+			else if(type.equals(short.class))
+				res=r.nextInt(65535);
+			else if(type.equals(byte.class)) {
+				res=new Byte[8];
+				r.nextBytes(((byte[])res));
+			} else if(type.equals(long.class))
+				res=r.nextLong();
+			else if(type.equals(float.class))
+				res=r.nextFloat();
+			else if(type.equals(double.class))
+				res=r.nextDouble();
+			else if(type.equals(String.class)){
+				int i = r.nextInt(100);
+				String s ="";
+				for (int j = 0; j < i; j++) {
+					Character c = (Character) newInstance(char.class);
+					s+=c;
+				}
+				res=s;
+			}
+
+		}else {
+			//Sinon, on le fait recursivement pour tous les attributs de la classe type
+			res=type.newInstance();
+			Field[] fields = type.getDeclaredFields();
+			for (int i = 0; i < fields.length; i++) {
+				fields[i].setAccessible(true);
+				if(!Modifier.isFinal(fields[i].getModifiers()))
+					fields[i].set(res, newInstance(fields[i].getType()));
+			}
+		}
+		return res;
+
+	}
+
+	/**
+	 * Test a get Method from another class
+	 * @param m The get Method to test
+	 * @param f The field it is supposed to get
+	 * @param src The tested class
+	 * @throws JLMException If an error is detected in the results
+	 * @see {@link Tests#testSet(Method, Field, Class)}
+	 */
+	public static final void testGet(Method m, Field f, Class<?> src) throws JLMException {
+		if(m.getParameterTypes().length>0 || m==null || f==null)
+			System.out.println("Erreur dans l'utilisation du testGet");
+		else {
+			Object obj,valAct,valGet;
+			f.setAccessible(true);
+			try {
+				//Objet test random
+
+				obj = newInstance(src);
+				System.out.println(src);
+				//Vraie valeur de l'attribut
+				System.out.println(f.isAccessible());
+				valAct = f.get(obj);
+				//On récupère la valeur du get
+				valGet=m.invoke(obj, new Object[0]);
+
+				System.out.println("Method "+src.getSimpleName()+"."+m.getName()+" (Got : "+valGet+" | Expected : "+valAct+")");
+
+				//vérification
+				if(!valAct.equals(valGet))
+					throw new JLMException("Method "+src.getSimpleName()+"."+m.getName()+" (Got : "+valGet+" | Expected : "+valAct+")");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
