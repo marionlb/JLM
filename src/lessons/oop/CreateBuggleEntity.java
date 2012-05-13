@@ -4,7 +4,7 @@ import jlm.universe.bugglequest.SimpleBuggle;
 
 public class CreateBuggleEntity extends SimpleBuggle {
 
-	/* BEGIN TEMPLATE */ 
+	/* BEGIN TEMPLATE */
 	/* BEGIN SOLUTION */
 	public class Buggle {
 		private int x;
@@ -32,15 +32,16 @@ public class CreateBuggleEntity extends SimpleBuggle {
 		}
 
 	}
-	/* END SOLUTION */	
+
+	/* END SOLUTION */
 	/* END TEMPLATE */
 
 	@Override
 	public void run() throws Exception {
-		Buggle buggle = new Buggle(1,1);
+		Buggle buggle = new Buggle(1, 1);
 		buggle.setX(5);
 		buggle.setY(4);
 		setX(buggle.getX());
 		setY(buggle.getY());
 	}
-} 
+}

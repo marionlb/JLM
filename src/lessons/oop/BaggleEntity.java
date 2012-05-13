@@ -3,7 +3,7 @@ package lessons.oop;
 import jlm.universe.bugglequest.SimpleBuggle;
 
 public class BaggleEntity extends SimpleBuggle {
-	/* BEGIN TEMPLATE */ 
+	/* BEGIN TEMPLATE */
 	/* BEGIN SOLUTION */
 	public class Baggle {
 		private int x;
@@ -31,7 +31,8 @@ public class BaggleEntity extends SimpleBuggle {
 		}
 
 	}
-	/* END SOLUTION */	
+
+	/* END SOLUTION */
 	/* END TEMPLATE */
 	@Override
 	public void run() throws Exception {

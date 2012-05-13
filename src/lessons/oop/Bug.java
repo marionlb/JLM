@@ -6,12 +6,12 @@ public class Bug {
 	private int posY;
 	private boolean brushDown;
 	private int direction;
-	public static final int tailleMonde=7;
+	public static final int tailleMonde = 7;
 
 	/*
 	 * Nord 0 Est Ouest 1 3 2 Sud
 	 */
-	
+
 	public Bug() {
 		this(2, 3, 1);
 	}
@@ -21,10 +21,10 @@ public class Bug {
 	}
 
 	public Bug(int x, int y, int dir) {
-		posX = x %tailleMonde;
-		posY = y %tailleMonde;
+		posX = x % tailleMonde;
+		posY = y % tailleMonde;
 		brushDown = false;
-		direction = dir%4;
+		direction = dir % 4;
 	}
 
 	// code test pour l'élève, pas vraiment dans la classe mais pratique de le
@@ -99,7 +99,7 @@ public class Bug {
 	}
 
 	public void setX(int posX) {
-		this.posX = posX %tailleMonde;
+		this.posX = posX % tailleMonde;
 	}
 
 	public int getY() {
@@ -107,7 +107,7 @@ public class Bug {
 	}
 
 	public void setY(int posY) {
-		this.posY = posY %tailleMonde;
+		this.posY = posY % tailleMonde;
 	}
 
 	public boolean isBrushDown() {

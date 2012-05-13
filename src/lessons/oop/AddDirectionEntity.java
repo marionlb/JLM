@@ -3,9 +3,9 @@ package lessons.oop;
 import jlm.universe.Direction;
 import jlm.universe.bugglequest.SimpleBuggle;
 
-public class AddDirectionEntity extends SimpleBuggle{
-	
-	/* BEGIN TEMPLATE */ 
+public class AddDirectionEntity extends SimpleBuggle {
+
+	/* BEGIN TEMPLATE */
 	/* BEGIN SOLUTION */
 	public class Buggle {
 		private int x;
@@ -17,12 +17,12 @@ public class AddDirectionEntity extends SimpleBuggle{
 			this.y = y;
 			this.direction = 0;
 		}
-		
-	    public Buggle(int x, int y, int direction) {
-	    	this.x = x;
-	    	this.y = y;
-	    	this.direction = direction;
-	    }
+
+		public Buggle(int x, int y, int direction) {
+			this.x = x;
+			this.y = y;
+			this.direction = direction;
+		}
 
 		public int getX() {
 			return x;
@@ -35,11 +35,11 @@ public class AddDirectionEntity extends SimpleBuggle{
 		public void setX(int x) {
 			this.x = x;
 		}
-		
+
 		public int getDirection() {
 			return this.direction;
 		}
-		
+
 		public void setDirection(int direction) {
 			this.direction = direction;
 		}
@@ -49,24 +49,24 @@ public class AddDirectionEntity extends SimpleBuggle{
 		}
 
 	}
-	/* END SOLUTION */	
+
+	/* END SOLUTION */
 	/* END TEMPLATE */
 
 	@Override
 	public void run() throws Exception {
-		Buggle buggle = new Buggle(1,1,1);
+		Buggle buggle = new Buggle(1, 1, 1);
 		setDirection(Direction.EAST);
 		buggle.setDirection(2);
 		if (buggle.getDirection() == 2)
 			setDirection(Direction.SOUTH);
 		buggle.setDirection(3);
-		if (buggle.getDirection() == 3) 
+		if (buggle.getDirection() == 3)
 			setDirection(Direction.WEST);
 		buggle.setDirection(0);
-		if (buggle.getDirection() == 0) 
-		   setDirection(Direction.NORTH);
-		
-		
+		if (buggle.getDirection() == 0)
+			setDirection(Direction.NORTH);
+
 	}
 
 }

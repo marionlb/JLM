@@ -4,7 +4,7 @@ import jlm.universe.bugglequest.SimpleBuggle;
 
 public class BrushEntity extends SimpleBuggle {
 
-	/* BEGIN TEMPLATE */ 
+	/* BEGIN TEMPLATE */
 	/* BEGIN SOLUTION */
 	public class Buggle {
 		private int x;
@@ -13,14 +13,14 @@ public class BrushEntity extends SimpleBuggle {
 		private boolean brushDown;
 
 		public Buggle(int x, int y) {
-			this(x,y,0);
+			this(x, y, 0);
 		}
 
 		public Buggle(int x, int y, int direction) {
 			this.x = x;
 			this.y = y;
 			this.direction = direction;
-			this.brushDown=false;
+			this.brushDown = false;
 		}
 
 		public int getX() {
@@ -96,19 +96,19 @@ public class BrushEntity extends SimpleBuggle {
 		public boolean isBrushDown() {
 			return brushDown;
 		}
-		
+
 		public void brushUp() {
-			brushDown=false;
+			brushDown = false;
 		}
-		
+
 		public void brushDown() {
-			brushDown=true;
+			brushDown = true;
 		}
 
 	}
-	/* END SOLUTION */	
-	/* END TEMPLATE */
 
+	/* END SOLUTION */
+	/* END TEMPLATE */
 
 	@Override
 	public void run() throws Exception {
